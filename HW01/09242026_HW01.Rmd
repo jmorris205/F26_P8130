@@ -1,0 +1,91 @@
+---
+title: "HW01"
+author: "Jonathan Morris"
+date: "2026-09-25"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Packages
+```{python}
+import numpy as np
+import pandas as pd
+```
+
+
+# Question 7:
+
+## (a) Read the CSV with ID as text. Preserve the severity order Mild < Moderate < Severe. Print the dataset dimensions, duplicate-ID count, missing-wait count, and negative-wait count. (2 points)
+```{python}
+## Read data:
+d = pd.read_csv("homework1_clinic.csv", dtype={"id": "string"}) 
+
+## Preserve severity order:
+ordered_levels = ["Mild", "Moderate", "Severe"]
+d["severity"] = pd.Categorical(d["severity"], categories = ordered_levels, ordered = True)
+d_sorted = d.sort_values(by = "severity")
+print(d_sorted)
+
+## Print data shape:
+print(d.shape) 
+
+## Print duplicated ID's:
+duplicated_id = d['id'].duplicated().sum()
+print(duplicated_id)
+
+## Print duplicated waits:
+duplicated_wait = d['wait_min'].duplicated().sum()
+print(duplicated_wait)
+
+## Print negative waits:
+negative_wait = (d['wait_min'] < 0).sum()
+print(negative_wait)
+```
+## (b) For observed waits, report n, mean, median, sample variance and SD, Q1, Q3, IQR, fences, and flagged values. Use ddof=1 and NumPy quantile method="linear". Compare the overlapping results with your hand calculations in Question 4. (3 points)
+```{python}
+# Print n:
+print(d["wait_min"].size)
+
+# Print the mean:
+print(np.mean(d["wait_min"]))
+
+# Print the variance:
+print(np.var(d["wait_min"], ddof = 1))
+
+# Print the variance:
+print(np.std(d["wait_min"], ddof = 1))
+
+# Print the quartiles:
+print(np.nanquantile(d["wait_min"], [0.25, 0.5, 0.75], method = "linear"))
+
+## Find the IQR and fences:
+q1 = np.nanquantile(d["wait_min"], [0.25], method = "linear")
+q3 = np.nanquantile(d["wait_min"], [0.75], method = "linear")
+iqr = q3 - q1
+fence1 = q1 - 1.5*iqr
+fence2 = q3 + 1.5*iqr
+
+# Print the flagged values:
+flagged = []
+for i in d["wait_min"]:
+  if i > fence2 or i < fence1:
+    flagged.append(i)
+
+print(flagged)
+```
+The results are .... compared to Q4!!
+
+## (c) Produce a labeled histogram using edges 0, 5, 10, 15, 20, 25, 30, and print the bin counts. Use bins closed on the left and open on the right, except the final bin includes 30. Also produce a labeled horizontal boxplot with the 1.5 × IQR rule. (3 points)
+```{python}
+
+```
+
+
+## (d) In two or three sentences, describe the distribution, explain why the mean uses the observed-wait count, and state how you would handle the flagged wait. (2 points)
+```{python}
+
+```
+
