@@ -81,20 +81,35 @@ The results are .... compared to Q4!!
 
 ## (c) Produce a labeled histogram using edges 0, 5, 10, 15, 20, 25, 30, and print the bin counts. Use bins closed on the left and open on the right, except the final bin includes 30. Also produce a labeled horizontal boxplot with the 1.5 × IQR rule. (3 points)
 
-
-
+### Create Histogram:
 ```{python}
-bin_width = 5
-custom_bins = np.arange(min(d["wait_min"]), max(d["wait_min"]) + bin_width, bin_width)
+custom_bins = np.array([0, 5, 10, 15, 20, 25, 31])
 
-plt.hist(d["wait_min"], bins=custom_bins, edgecolor='black', color='salmon')
+plt.hist(d["wait_min"], bins=custom_bins, edgecolor='black', color='blue')
+
+# Add tick labels:
+centers = custom_bins[:-1] + 2.5 # Label bin centers except for the upper bound.
+labels = [f"{b}-{b+4}" for b in custom_bins[:-1]] # Create a list of bin labels.
+labels[-1] = "25-30" # Add a last label for the final bin.
+plt.xticks(centers, labels) # Add the labels to the plot.
+
 plt.title("Histogram with Specific Bin Width (Size = 5)")
+plt.xlabel("Wait time (min)")
+plt.ylabel("Count")
+plt.show()
+```
+
+### Create Boxplot:
+```{python}
+plt.boxplot(d["wait_min"].dropna(), orientation="horizontal",
+whis=1.5, showmeans=False)
+plt.title("Boxplot Showing Distribution of Wait Times")
+plt.xlabel("Wait (minutes)")
 plt.show()
 ```
 
 
 ## (d) In two or three sentences, describe the distribution, explain why the mean uses the observed-wait count, and state how you would handle the flagged wait. (2 points)
-```{python}
+The mean uses the observed wait count in the basic formula for sample mean by dividing the sum of all the observations by the number of non-na values (i.e., the observed wait count). In this case, since the flagged wait is so much higher than other waits, I would run analyses with and without the outlier to see if results changed. If I were presenting or writing a paper, I would report both results.
 
-```
 
