@@ -20,6 +20,7 @@ from collections import Counter
 ```{r}
 library(dplyr)
 library(tidyverse)
+library(ggplot2)
 ```
 
 # Question 7:
@@ -280,9 +281,9 @@ succ1 <- sum(m1)
 emp1  <- mean(m1)
 theo1 <- (3/8) * (2/7) * (1/6)
 
-paste0("Successes for model 1: ", sum(m1 <= 3))
-paste0("Probability of ", sum(m1 <= 3),
-       " successes in model 1: P(X = 0) = $\\frac{5}{8} \\frac{4}{8} \\frac{3}{8}$")
+paste0("Successes for model 1: ", succ1)
+paste0("Empirical probabilitiy for model 1: ", emp1)
+paste0("Theoretical probability for model 1: ", theo1)
 
 set.seed(813111)
 # Run the second model with replacement:
@@ -290,10 +291,51 @@ m2 <- replicate(B, all(sample.int(8, 3, replace = TRUE) <= 3))
 succ2 <- sum(m2)
 emp2  <- mean(m2)
 theo2 <- (3/8)^3
-paste0("Successes for model 2: ", sum(m2 <= 3))
+paste0("Successes for model 2: ", succ2)
+paste0("Empirical probabilitiy for model 2: ", emp2)
+paste0("Theoretical probability for model 2: ", theo2)
 ```
 
 ## c. For the simulation without replacement, report running empirical probabilities after 100, 1,000, 10,000, and 100,000 trials. Plot the running probability against the number of trials, with a horizontal line at the theoretical probability. A logarithmic horizontal axis is acceptable. (3 points)
+```{r}
+# Set Seed:
+set.seed(813110)
+
+# Initialize data frames:
+trials = c(100, 1000, 10000, 100000)
+probs_df = data.frame(B = c(100, 1000, 10000, 100000), 
+                   probs = c(NA, NA, NA, NA),
+                   log_B = log(B))
+
+# Run the simulations:
+i = 1
+for (B in trials) {
+    # Run Model
+    m1 <- replicate(B, all(sample.int(8, 3, replace = FALSE) <= 3))
+    succ1 <- sum(m1)
+    emp1  <- mean(m1)
+    
+    # Report results:
+    paste0("Successes for model 1 with B = ", B, ": ", succ1)
+    paste0("Empirical probabilitiy for model 1 with B = ", B, ": ", emp1)
+    probs_df[i, 2] = emp1
+    i = i + 1
+}
+
+# Plot the graph:
+probs_df |> 
+  ggplot(aes(x = log(B), y = probs)) +
+  geom_point() +
+  geom_line() +
+  geom_hline(yintercept = theo1, linetype = "dotted") +
+  xlab("Logarithm of Trial Numbers") +
+  ylab("Empirical Probabilities") +
+  annotate("text", x = 6, y = theo1, label = "Theoretical Probability",
+           hjust = 1, vjust = -0.5, color = "red")
+```
+
 ## d. Explain why the two models have different probabilities. Does the law of large numbers guarantee exact agreement after 25 trials, or that each additional trial moves the estimate closer to the truth? (2 points)
+The theoretical probability is defined for the case where our sample size B trends to infinity. In theory, if we were to repeat this experiment an infinite number of times, our empirical probability would converge to the theoretical probability. This means that we will not necessarily have exact agreement after 25 trials, and that as we keep sampling greater and greater numbers, we get closer and closer to the theoretical result.
+
 
 
