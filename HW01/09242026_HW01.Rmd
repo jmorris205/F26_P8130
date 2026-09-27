@@ -34,46 +34,51 @@ d = pd.read_csv("homework1_clinic.csv", dtype={"id": "string"})
 ordered_levels = ["Mild", "Moderate", "Severe"]
 d["severity"] = pd.Categorical(d["severity"], categories = ordered_levels, ordered = True)
 d_sorted = d.sort_values(by = "severity")
-print(d_sorted)
+# print(d_sorted)
 
 ## Print data shape:
-print(d.shape) 
+print(f"Data shape: {d.shape}")
 
 ## Print duplicated ID's:
 duplicated_id = d['id'].duplicated().sum()
-print(duplicated_id)
+print(f"Number of duplicate id's: {duplicated_id}")
 
 ## Print duplicated waits:
 duplicated_wait = d['wait_min'].duplicated().sum()
-print(duplicated_wait)
+print(f"Number of duplicate waits: {duplicated_wait}")
 
 ## Print negative waits:
 negative_wait = (d['wait_min'] < 0).sum()
-print(negative_wait)
+print(f"Number of negative waits: {negative_wait}")
 ```
 ## (b) For observed waits, report n, mean, median, sample variance and SD, Q1, Q3, IQR, fences, and flagged values. Use ddof=1 and NumPy quantile method="linear". Compare the overlapping results with your hand calculations in Question 4. (3 points)
 ```{python}
 # Print n:
-print(d["wait_min"].size)
+print(f"n: {d["wait_min"].size}")
 
 # Print the mean:
-print(np.mean(d["wait_min"]))
+print(f"Mean: {np.mean(d["wait_min"])}")
+
 
 # Print the variance:
-print(np.var(d["wait_min"], ddof = 1))
+print(f"Variance: {np.var(d["wait_min"], ddof = 1)}")
 
-# Print the variance:
-print(np.std(d["wait_min"], ddof = 1))
+# Print the standard deviation:
+print(f"Standard deviation: {np.std(d["wait_min"], ddof = 1)}")
 
 # Print the quartiles:
-print(np.nanquantile(d["wait_min"], [0.25, 0.5, 0.75], method = "linear"))
+print(f"Quartiles: {np.nanquantile(d["wait_min"], [0.25, 0.5, 0.75], method = "linear")}")
 
 ## Find the IQR and fences:
 q1 = np.nanquantile(d["wait_min"], [0.25], method = "linear")
 q3 = np.nanquantile(d["wait_min"], [0.75], method = "linear")
 iqr = q3 - q1
+print(f"IQR: {iqr}") # Print IQR
 fence1 = q1 - 1.5*iqr
 fence2 = q3 + 1.5*iqr
+print(f"Fence 1: {fence1}") # print fence 1
+print(f"Fence 2: {fence2}") # Print fence 2
+
 
 # Print the flagged values:
 flagged = []
@@ -81,9 +86,10 @@ for i in d["wait_min"]:
   if i > fence2 or i < fence1:
     flagged.append(i)
 
-print(flagged)
+print(f"Flagged values: {flagged}")
+
 ```
-The results are .... compared to Q4!!
+The results are the same as those from question 4!!
 
 ## (c) Produce a labeled histogram using edges 0, 5, 10, 15, 20, 25, 30, and print the bin counts. Use bins closed on the left and open on the right, except the final bin includes 30. Also produce a labeled horizontal boxplot with the 1.5 × IQR rule. (3 points)
 
@@ -99,7 +105,7 @@ labels = [f"{b}-{b+4}" for b in custom_bins[:-1]] # Create a list of bin labels.
 labels[-1] = "25-30" # Add a last label for the final bin.
 plt.xticks(centers, labels) # Add the labels to the plot.
 
-plt.title("Histogram with Specific Bin Width (Size = 5)")
+plt.title("Histogram of Wait Times")
 plt.xlabel("Wait time (min)")
 plt.ylabel("Count")
 plt.show()
@@ -116,7 +122,7 @@ plt.show()
 
 
 ## (d) In two or three sentences, describe the distribution, explain why the mean uses the observed-wait count, and state how you would handle the flagged wait. (2 points)
-The mean uses the observed wait count in the basic formula for sample mean by dividing the sum of all the observations by the number of non-na values (i.e., the observed wait count). In this case, since the flagged wait is so much higher than other waits, I would run analyses with and without the outlier to see if results changed. If I were presenting or writing a paper, I would report both results.
+The mean uses the observed wait count in the basic formula for sample mean by dividing the sum of all the non-na observations by the number of non-na values (i.e., the observed wait count). In this case, since the flagged wait is so much higher than other waits, I would run analyses with and without the outlier to see if results changed. If I were presenting or writing a paper, I would report both results. I would also consider using the median becuase it is often less susceptible to impacts from extreme values.
 
 
 
@@ -127,43 +133,95 @@ The mean uses the observed wait count in the basic formula for sample mean by di
 # Load the data:
 d <- read_csv("homework1_clinic.csv")
 
+# Print program by improved count table:
+d |> 
+  group_by(program, improved) |> 
+  summarize(count = n())
+```
+
+## Report results for Program == Yes group:
+```{r}
+d_yes = d |> 
+  filter(program == "Yes")
+
 # Report total participants:
-total_pp = d |> 
+total_pp = d_yes |> 
   filter(!is.na(id)) |> 
   count()
 
-paste0("We have ", total_pp, " unique participants.")
+paste0("The Yes program has ", total_pp, " unique participants.")
 
 # Report observed improvement outcomes:
-improved_obs = d |> 
+improved_obs = d_yes |> 
   filter(!is.na(improved)) |> 
   count() |> 
   pull()
 
-paste0("We have ", improved_obs, " observed improvement outcomes.")
+paste0("The Yes program has ", improved_obs, " observed improvement outcomes.")
 
 # Report number improved:
-improved_count = d |> 
+improved_count = d_yes |> 
   filter(improved == 1) |> 
   count() |> 
   pull()
 
-paste0("We have ", improved_count, " particpants that improved.")
+paste0("The Yes program has ", improved_count, " particpants that improved.")
 
 # Report improvement proportion:
 improved_proportion = improved_count / improved_obs 
 
-paste0("Our improvement proportion is: ", improved_proportion)
+paste0("Our improvement proportion for the Yes program is: ", improved_proportion)
 
 # Report number of missing waits:
-missing_waits = d |> 
+missing_waits = d_yes |> 
   filter(is.na(wait_min)) |> 
   count() |> 
   pull()
 
-paste0("We have ", missing_waits, " missing wait times.")
-
+paste0("The Yes group has ", missing_waits, " missing wait times.")
 ```
+## Report results for Program == No group:
+```{r}
+d_no = d |> 
+  filter(program == "No")
+
+# Report total participants:
+total_pp = d_no |> 
+  filter(!is.na(id)) |> 
+  count()
+
+paste0("The No program has ", total_pp, " unique participants.")
+
+# Report observed improvement outcomes:
+improved_obs = d_no |> 
+  filter(!is.na(improved)) |> 
+  count() |> 
+  pull()
+
+paste0("The No program has ", improved_obs, " observed improvement outcomes.")
+
+# Report number improved:
+improved_count = d_no |> 
+  filter(improved == 1) |> 
+  count() |> 
+  pull()
+
+paste0("The No program has ", improved_count, " particpants that improved.")
+
+# Report improvement proportion:
+improved_proportion = improved_count / improved_obs 
+
+paste0("Our improvement proportion for the No program is: ", improved_proportion)
+
+# Report number of missing waits:
+missing_waits = d_no |> 
+  filter(is.na(wait_min)) |> 
+  count() |> 
+  pull()
+
+paste0("The No group has ", missing_waits, " missing wait times.")
+```
+
 
 ## b. Calculate the Yes-minus-No difference in improvement proportions. Express it as both a proportion difference and percentage points. (2 points)
 ```{r}
@@ -184,7 +242,8 @@ yes_ratio = improved_yes_c / d |> filter(program == "Yes") |> count() |> pull()
 no_ratio = improved_no_c / d |> filter(program == "No") |> count() |> pull()
 
 # Calculate difference:
-paste0("The yes-no difference is: ", yes_ratio - no_ratio, ".")
+paste0("The yes-no difference proportion is: ", yes_ratio - no_ratio, ".")
+paste0("The yes-no difference percentage is: ", (yes_ratio - no_ratio)*100, "%")
 ```
 
 ## c. Make a labeled bar chart of the two improvement proportions with a vertical axis from 0 to 1. (1 point)
@@ -205,7 +264,7 @@ df |>
 ```
 
 ## d. Write a defensible interpretation limited to these participants. Explain why the difference is not automatically a causal effect, naming one plausible baseline confounder and how it could affect both program choice and improvement. (2 points)
-Based on these results, we can conclude that in this sample of 12 participants, those that chose counseling had almost double the improvement ratio when compared to those students that did not chose counseling. This is not necessarily a causal effect because participants were not randomized and self-selected into groups. One possible confounder is self-selection bias where participants who were more likely to benefit from counseling could have selected into counseling programs, therefore biasing the outcomes in number of participants that improved.
+Based on these results, we can conclude that in this sample of 12 participants, those that chose counseling had almost double the improvement ratio when compared to those students that did not chose counseling. This is not necessarily a causal effect because participants were not randomized and instead self-selected into groups. One possible confounder is self-selection bias where participants who were more likely to benefit from counseling could have selected into counseling programs, therefore biasing the outcomes in number of participants that improved.
 
 
 
@@ -216,10 +275,11 @@ Based on these results, we can conclude that in this sample of 12 participants, 
 ## a. Use np.random.default_rng(813109) and B=100000. First generate B independent uniforms to assign disease; then generate B new independent uniforms to assign positive tests with probability 0.90 for people with disease and 0.05 otherwise. Print the four counts TP, FN, FP, and TN, with clear labels. (3 points)
 
 ```{python}
+# Initialize rng and B:
 rng = np.random.default_rng(813109)
 B = 100000
 
-# Create disease vector
+# Create disease vector of T/F 
 D = rng.random(B) < 0.02
 
 # Create test vector:
@@ -244,25 +304,35 @@ print(f"True negatives  (TN): {TN}")
 ```{python}
 # Calculate sensitivity, the proportion of people that test positive given that they have the disease:
 sensitivity = TP/(TP + FN)
-print("The sensitivity is: ",sensitivity)
+print("The empirical sensitivity is: ",sensitivity)
+print("The theoretical sensitivity is: ",0.90, "as specified in the problem setup")
 
 # Calculate specificity, the proportion of people that test negative given that they do not have the disease:
 specificity = TN/(TN + FP)
-print("The specificity is: ", specificity)
+print("The empirical specificity is: ", specificity)
+print("The theoretical specificity is: ",0.95, "as specified in the problem setup")
 
-# Calculate positive predictive value, the proportion of people that actually have the disease and test positive:
+# Calculate positive predictive value, the proportion of people that actually have the disease given that they test positive:
 PPV = TP/(TP + FP)
-print("The PPV is: ", PPV)
+print("The empirical PPV is: ", PPV)
+print("By bayes rule, the theoretical PPV is: ", (0.9*0.02)/((0.9*0.02) + ((1-0.95)*0.98)))
+
 
 # Calculate negative predictive value, the proportion of people that test negative and do not have the disease:
 NPV = TN/(TN + FN)
-print("The NPV is: ", NPV)
+print("The empirical NPV is: ", NPV)
+print("By bayes rule, the theoretical NPV is: ", (0.95*0.98)/((0.95*0.98) + ((1-0.90)*0.02)))
 
 ```
 The results closely resemble what we would expect from a theoretical calculation, with only slight differences in the computed sensitivity and specificity values. These differences are largely accounted for when we round to the second decimal place, but demonstrate that the simulation will still have slight discrepancies when compared to the theoretical case. As B goes to infinity, our theoretical and simulated results will get closer and closer. This does not demonstrate a mathematical proof because we only simulated the results in a heuristic example. To prove these relationships, we would need to show that as B goes to infinity, the simulated result converges to the theoretical result.
 
 ## c. Holding sensitivity and specificity fixed, calculate the theoretical PPV when prevalence rises to 0.20. Explain the direction of the change. (2 points)
-The PPV rises to 0.82 (see notes). This is likely due to the fact that as the prevalence rises, we expect more people in the population to have the disease, hence it is also much more likely that someone who tests positive will have the disease also.
+```{r}
+paste0("By bayes rule, the theoretical PPV with prevalence at 0.20 is: ", (0.9*0.2)/((0.9*0.2) + ((1-0.95)*0.8)))
+```
+
+
+The PPV rises to 0.82. This is likely due to the fact that as the prevalence rises, we expect more people in the population to have the disease, hence it is also much more likely that someone who tests positive will have the disease also.
 
 
 # Question 10 Sampling without replacement in R

@@ -1,0 +1,902 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={HW01},
+  pdfauthor={Jonathan Morris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HW01}
+\author{Jonathan Morris}
+\date{2026-09-25}
+
+\begin{document}
+\maketitle
+
+\subsection{Load Packages}\label{load-packages}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\ImportTok{from}\NormalTok{ collections }\ImportTok{import}\NormalTok{ Counter}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v forcats   1.0.0     v readr     2.1.5
+## v ggplot2   3.5.2     v stringr   1.5.1
+## v lubridate 1.9.4     v tibble    3.3.0
+## v purrr     1.2.0     v tidyr     1.3.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Question 7:}\label{question-7}
+
+\subsection{(a) Read the CSV with ID as text. Preserve the severity
+order Mild \textless{} Moderate \textless{} Severe. Print the dataset
+dimensions, duplicate-ID count, missing-wait count, and negative-wait
+count. (2
+points)}\label{a-read-the-csv-with-id-as-text.-preserve-the-severity-order-mild-moderate-severe.-print-the-dataset-dimensions-duplicate-id-count-missing-wait-count-and-negative-wait-count.-2-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\# Read data:}
+\NormalTok{d }\OperatorTok{=}\NormalTok{ pd.read\_csv(}\StringTok{"homework1\_clinic.csv"}\NormalTok{, dtype}\OperatorTok{=}\NormalTok{\{}\StringTok{"id"}\NormalTok{: }\StringTok{"string"}\NormalTok{\}) }
+
+\CommentTok{\#\# Preserve severity order:}
+\NormalTok{ordered\_levels }\OperatorTok{=}\NormalTok{ [}\StringTok{"Mild"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"Severe"}\NormalTok{]}
+\NormalTok{d[}\StringTok{"severity"}\NormalTok{] }\OperatorTok{=}\NormalTok{ pd.Categorical(d[}\StringTok{"severity"}\NormalTok{], categories }\OperatorTok{=}\NormalTok{ ordered\_levels, ordered }\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{d\_sorted }\OperatorTok{=}\NormalTok{ d.sort\_values(by }\OperatorTok{=} \StringTok{"severity"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(d\_sorted)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     id program  severity  age_years  prior_visits  wait_min  improved
+## 0   01     Yes      Mild         23             0       2.0         1
+## 6   07      No      Mild         25             0      10.0         0
+## 7   08      No      Mild         37             1      10.0         1
+## 1   02     Yes  Moderate         31             1       4.0         1
+## 3   04     Yes  Moderate         29             2       6.0         1
+## 8   09      No  Moderate         43             2      12.0         0
+## 9   10      No  Moderate         66             5      25.0         0
+## 2   03     Yes    Severe         45             3       4.0         0
+## 4   05     Yes    Severe         60             4       8.0         0
+## 5   06     Yes    Severe         52             2       NaN         1
+## 10  11      No    Severe         48             2       NaN         1
+## 11  12      No    Severe         57             3       NaN         0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\# Print data shape:}
+\BuiltInTok{print}\NormalTok{(d.shape) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (12, 7)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\# Print duplicated ID\textquotesingle{}s:}
+\NormalTok{duplicated\_id }\OperatorTok{=}\NormalTok{ d[}\StringTok{\textquotesingle{}id\textquotesingle{}}\NormalTok{].duplicated().}\BuiltInTok{sum}\NormalTok{()}
+\BuiltInTok{print}\NormalTok{(duplicated\_id)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\# Print duplicated waits:}
+\NormalTok{duplicated\_wait }\OperatorTok{=}\NormalTok{ d[}\StringTok{\textquotesingle{}wait\_min\textquotesingle{}}\NormalTok{].duplicated().}\BuiltInTok{sum}\NormalTok{()}
+\BuiltInTok{print}\NormalTok{(duplicated\_wait)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\# Print negative waits:}
+\NormalTok{negative\_wait }\OperatorTok{=}\NormalTok{ (d[}\StringTok{\textquotesingle{}wait\_min\textquotesingle{}}\NormalTok{] }\OperatorTok{\textless{}} \DecValTok{0}\NormalTok{).}\BuiltInTok{sum}\NormalTok{()}
+\BuiltInTok{print}\NormalTok{(negative\_wait)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0
+\end{verbatim}
+
+\subsection{(b) For observed waits, report n, mean, median, sample
+variance and SD, Q1, Q3, IQR, fences, and flagged values. Use ddof=1 and
+NumPy quantile method=``linear''. Compare the overlapping results with
+your hand calculations in Question 4. (3
+points)}\label{b-for-observed-waits-report-n-mean-median-sample-variance-and-sd-q1-q3-iqr-fences-and-flagged-values.-use-ddof1-and-numpy-quantile-methodlinear.-compare-the-overlapping-results-with-your-hand-calculations-in-question-4.-3-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print n:}
+\BuiltInTok{print}\NormalTok{(d[}\StringTok{"wait\_min"}\NormalTok{].size)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print the mean:}
+\BuiltInTok{print}\NormalTok{(np.mean(d[}\StringTok{"wait\_min"}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 9.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print the variance:}
+\BuiltInTok{print}\NormalTok{(np.var(d[}\StringTok{"wait\_min"}\NormalTok{], ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 47.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print the variance:}
+\BuiltInTok{print}\NormalTok{(np.std(d[}\StringTok{"wait\_min"}\NormalTok{], ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 6.855654600401044
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print the quartiles:}
+\BuiltInTok{print}\NormalTok{(np.nanquantile(d[}\StringTok{"wait\_min"}\NormalTok{], [}\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{], method }\OperatorTok{=} \StringTok{"linear"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [ 4.  8. 10.]
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\# Find the IQR and fences:}
+\NormalTok{q1 }\OperatorTok{=}\NormalTok{ np.nanquantile(d[}\StringTok{"wait\_min"}\NormalTok{], [}\FloatTok{0.25}\NormalTok{], method }\OperatorTok{=} \StringTok{"linear"}\NormalTok{)}
+\NormalTok{q3 }\OperatorTok{=}\NormalTok{ np.nanquantile(d[}\StringTok{"wait\_min"}\NormalTok{], [}\FloatTok{0.75}\NormalTok{], method }\OperatorTok{=} \StringTok{"linear"}\NormalTok{)}
+\NormalTok{iqr }\OperatorTok{=}\NormalTok{ q3 }\OperatorTok{{-}}\NormalTok{ q1}
+\NormalTok{fence1 }\OperatorTok{=}\NormalTok{ q1 }\OperatorTok{{-}} \FloatTok{1.5}\OperatorTok{*}\NormalTok{iqr}
+\NormalTok{fence2 }\OperatorTok{=}\NormalTok{ q3 }\OperatorTok{+} \FloatTok{1.5}\OperatorTok{*}\NormalTok{iqr}
+
+\CommentTok{\# Print the flagged values:}
+\NormalTok{flagged }\OperatorTok{=}\NormalTok{ []}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in}\NormalTok{ d[}\StringTok{"wait\_min"}\NormalTok{]:}
+  \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{\textgreater{}}\NormalTok{ fence2 }\KeywordTok{or}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ fence1:}
+\NormalTok{    flagged.append(i)}
+
+\BuiltInTok{print}\NormalTok{(flagged)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [25.0]
+\end{verbatim}
+
+The results are \ldots. compared to Q4!!
+
+\subsection{(c) Produce a labeled histogram using edges 0, 5, 10, 15,
+20, 25, 30, and print the bin counts. Use bins closed on the left and
+open on the right, except the final bin includes 30. Also produce a
+labeled horizontal boxplot with the 1.5 × IQR rule. (3
+points)}\label{c-produce-a-labeled-histogram-using-edges-0-5-10-15-20-25-30-and-print-the-bin-counts.-use-bins-closed-on-the-left-and-open-on-the-right-except-the-final-bin-includes-30.-also-produce-a-labeled-horizontal-boxplot-with-the-1.5-iqr-rule.-3-points}
+
+\subsubsection{Create Histogram:}\label{create-histogram}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{custom\_bins }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{31}\NormalTok{])}
+
+\NormalTok{plt.hist(d[}\StringTok{"wait\_min"}\NormalTok{], bins}\OperatorTok{=}\NormalTok{custom\_bins, edgecolor}\OperatorTok{=}\StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{, color}\OperatorTok{=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Add tick labels:}
+\NormalTok{centers }\OperatorTok{=}\NormalTok{ custom\_bins[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{] }\OperatorTok{+} \FloatTok{2.5} \CommentTok{\# Label bin centers except for the upper bound.}
+\NormalTok{labels }\OperatorTok{=}\NormalTok{ [}\SpecialStringTok{f"}\SpecialCharTok{\{}\NormalTok{b}\SpecialCharTok{\}}\SpecialStringTok{{-}}\SpecialCharTok{\{}\NormalTok{b}\OperatorTok{+}\DecValTok{4}\SpecialCharTok{\}}\SpecialStringTok{"} \ControlFlowTok{for}\NormalTok{ b }\KeywordTok{in}\NormalTok{ custom\_bins[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{]] }\CommentTok{\# Create a list of bin labels.}
+\NormalTok{labels[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{] }\OperatorTok{=} \StringTok{"25{-}30"} \CommentTok{\# Add a last label for the final bin.}
+\NormalTok{plt.xticks(centers, labels) }\CommentTok{\# Add the labels to the plot.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ([<matplotlib.axis.XTick object at 0x110f59e80>, <matplotlib.axis.XTick object at 0x110f98910>, <matplotlib.axis.XTick object at 0x110f99090>, <matplotlib.axis.XTick object at 0x110f99810>, <matplotlib.axis.XTick object at 0x110f99f90>, <matplotlib.axis.XTick object at 0x110f9a710>], [Text(2.5, 0, '0-4'), Text(7.5, 0, '5-9'), Text(12.5, 0, '10-14'), Text(17.5, 0, '15-19'), Text(22.5, 0, '20-24'), Text(27.5, 0, '25-30')])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.title(}\StringTok{"Histogram with Specific Bin Width (Size = 5)"}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"Wait time (min)"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Count"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-5-1.pdf}}
+
+\subsubsection{Create Boxplot:}\label{create-boxplot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.boxplot(d[}\StringTok{"wait\_min"}\NormalTok{].dropna(), orientation}\OperatorTok{=}\StringTok{"horizontal"}\NormalTok{,}
+\NormalTok{whis}\OperatorTok{=}\FloatTok{1.5}\NormalTok{, showmeans}\OperatorTok{=}\VariableTok{False}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## {'whiskers': [<matplotlib.lines.Line2D object at 0x111a07b10>, <matplotlib.lines.Line2D object at 0x111a07c50>], 'caps': [<matplotlib.lines.Line2D object at 0x111a07d90>, <matplotlib.lines.Line2D object at 0x111a07ed0>], 'boxes': [<matplotlib.lines.Line2D object at 0x111a079d0>], 'medians': [<matplotlib.lines.Line2D object at 0x111a24050>], 'fliers': [<matplotlib.lines.Line2D object at 0x111a24190>], 'means': []}
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.title(}\StringTok{"Boxplot Showing Distribution of Wait Times"}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"Wait (minutes)"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-6-3.pdf}}
+
+\subsection{(d) In two or three sentences, describe the distribution,
+explain why the mean uses the observed-wait count, and state how you
+would handle the flagged wait. (2
+points)}\label{d-in-two-or-three-sentences-describe-the-distribution-explain-why-the-mean-uses-the-observed-wait-count-and-state-how-you-would-handle-the-flagged-wait.-2-points}
+
+The mean uses the observed wait count in the basic formula for sample
+mean by dividing the sum of all the observations by the number of non-na
+values (i.e., the observed wait count). In this case, since the flagged
+wait is so much higher than other waits, I would run analyses with and
+without the outlier to see if results changed. If I were presenting or
+writing a paper, I would report both results.
+
+\section{Question 8 An observational comparison in
+R}\label{question-8-an-observational-comparison-in-r}
+
+\subsection{a. Read the same CSV. Print the program-by-improved count
+table. For each program group, report total participants, observed
+improvement outcomes, number improved, improvement proportion, and
+number of missing waits. Do not exclude an observed improvement outcome
+because its waiting time is missing. (3
+points)}\label{a.-read-the-same-csv.-print-the-program-by-improved-count-table.-for-each-program-group-report-total-participants-observed-improvement-outcomes-number-improved-improvement-proportion-and-number-of-missing-waits.-do-not-exclude-an-observed-improvement-outcome-because-its-waiting-time-is-missing.-3-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the data:}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"homework1\_clinic.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 12 Columns: 7
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (3): id, program, severity
+## dbl (4): age_years, prior_visits, wait_min, improved
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report total participants:}
+\NormalTok{total\_pp }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(id)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, total\_pp, }\StringTok{" unique participants."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "We have 12 unique participants."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report observed improvement outcomes:}
+\NormalTok{improved\_obs }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(improved)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, improved\_obs, }\StringTok{" observed improvement outcomes."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "We have 12 observed improvement outcomes."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report number improved:}
+\NormalTok{improved\_count }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(improved }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, improved\_count, }\StringTok{" particpants that improved."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "We have 6 particpants that improved."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report improvement proportion:}
+\NormalTok{improved\_proportion }\OtherTok{=}\NormalTok{ improved\_count }\SpecialCharTok{/}\NormalTok{ improved\_obs }
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Our improvement proportion is: "}\NormalTok{, improved\_proportion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Our improvement proportion is: 0.5"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report number of missing waits:}
+\NormalTok{missing\_waits }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(wait\_min)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, missing\_waits, }\StringTok{" missing wait times."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "We have 3 missing wait times."
+\end{verbatim}
+
+\subsection{b. Calculate the Yes-minus-No difference in improvement
+proportions. Express it as both a proportion difference and percentage
+points. (2
+points)}\label{b.-calculate-the-yes-minus-no-difference-in-improvement-proportions.-express-it-as-both-a-proportion-difference-and-percentage-points.-2-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate yes count:}
+\NormalTok{improved\_yes\_c }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(program }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{, improved }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\CommentTok{\# Calculate no count:}
+\NormalTok{improved\_no\_c }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(program }\SpecialCharTok{==} \StringTok{"No"}\NormalTok{, improved }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\CommentTok{\# Calculate ratios:}
+\NormalTok{yes\_ratio }\OtherTok{=}\NormalTok{ improved\_yes\_c }\SpecialCharTok{/}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} \FunctionTok{filter}\NormalTok{(program }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{pull}\NormalTok{()}
+\NormalTok{no\_ratio }\OtherTok{=}\NormalTok{ improved\_no\_c }\SpecialCharTok{/}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} \FunctionTok{filter}\NormalTok{(program }\SpecialCharTok{==} \StringTok{"No"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{pull}\NormalTok{()}
+
+\CommentTok{\# Calculate difference:}
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The yes{-}no difference is: "}\NormalTok{, yes\_ratio }\SpecialCharTok{{-}}\NormalTok{ no\_ratio, }\StringTok{"."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The yes-no difference is: 0.333333333333333."
+\end{verbatim}
+
+\subsection{c.~Make a labeled bar chart of the two improvement
+proportions with a vertical axis from 0 to 1. (1
+point)}\label{c.-make-a-labeled-bar-chart-of-the-two-improvement-proportions-with-a-vertical-axis-from-0-to-1.-1-point}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Make a data frame with the proportions:}
+\NormalTok{df }\OtherTok{=} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{program =} \FunctionTok{c}\NormalTok{(}\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{),}
+  \AttributeTok{ratio =} \FunctionTok{c}\NormalTok{(yes\_ratio, no\_ratio)}
+\NormalTok{)}
+
+\NormalTok{df }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ program, }\AttributeTok{y =}\NormalTok{ ratio)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Program"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Improvement Proportion"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Improvement Proportions by Program"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-9-1.pdf}}
+
+\subsection{d.~Write a defensible interpretation limited to these
+participants. Explain why the difference is not automatically a causal
+effect, naming one plausible baseline confounder and how it could affect
+both program choice and improvement. (2
+points)}\label{d.-write-a-defensible-interpretation-limited-to-these-participants.-explain-why-the-difference-is-not-automatically-a-causal-effect-naming-one-plausible-baseline-confounder-and-how-it-could-affect-both-program-choice-and-improvement.-2-points}
+
+Based on these results, we can conclude that in this sample of 12
+participants, those that chose counseling had almost double the
+improvement ratio when compared to those students that did not chose
+counseling. This is not necessarily a causal effect because participants
+were not randomized and self-selected into groups. One possible
+confounder is self-selection bias where participants who were more
+likely to benefit from counseling could have selected into counseling
+programs, therefore biasing the outcomes in number of participants that
+improved.
+
+\section{Question 9 Checking diagnostic probabilities in
+Python}\label{question-9-checking-diagnostic-probabilities-in-python}
+
+\section{In a hypothetical population, disease prevalence is 0.02,
+sensitivity is 0.90, and specificity is 0.95. Let D mean disease and T
+mean a positive test. Assume independent simulated people and the stated
+conditional test
+probabilities.}\label{in-a-hypothetical-population-disease-prevalence-is-0.02-sensitivity-is-0.90-and-specificity-is-0.95.-let-d-mean-disease-and-t-mean-a-positive-test.-assume-independent-simulated-people-and-the-stated-conditional-test-probabilities.}
+
+\subsection{a. Use np.random.default\_rng(813109) and B=100000. First
+generate B independent uniforms to assign disease; then generate B new
+independent uniforms to assign positive tests with probability 0.90 for
+people with disease and 0.05 otherwise. Print the four counts TP, FN,
+FP, and TN, with clear labels. (3
+points)}\label{a.-use-np.random.default_rng813109-and-b100000.-first-generate-b-independent-uniforms-to-assign-disease-then-generate-b-new-independent-uniforms-to-assign-positive-tests-with-probability-0.90-for-people-with-disease-and-0.05-otherwise.-print-the-four-counts-tp-fn-fp-and-tn-with-clear-labels.-3-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rng }\OperatorTok{=}\NormalTok{ np.random.default\_rng(}\DecValTok{813109}\NormalTok{)}
+\NormalTok{B }\OperatorTok{=} \DecValTok{100000}
+
+\CommentTok{\# Create disease vector}
+\NormalTok{D }\OperatorTok{=}\NormalTok{ rng.random(B) }\OperatorTok{\textless{}} \FloatTok{0.02}
+
+\CommentTok{\# Create test vector:}
+\NormalTok{p\_pos }\OperatorTok{=}\NormalTok{ np.where(D, }\FloatTok{0.90}\NormalTok{, }\FloatTok{0.05}\NormalTok{) }\CommentTok{\# Creates an array which assigns 0.90 to any row with TRUE in D and 0.05 to FALSE, etc.}
+\NormalTok{T }\OperatorTok{=}\NormalTok{ rng.random(B) }\OperatorTok{\textless{}}\NormalTok{ p\_pos}
+
+\CommentTok{\# Calculate counts:}
+\NormalTok{TP }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(D }\OperatorTok{\&}\NormalTok{ T)}
+\NormalTok{FN }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(D }\OperatorTok{\&} \OperatorTok{\textasciitilde{}}\NormalTok{T)}
+\NormalTok{FP }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(}\OperatorTok{\textasciitilde{}}\NormalTok{D }\OperatorTok{\&}\NormalTok{ T)}
+\NormalTok{TN }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(}\OperatorTok{\textasciitilde{}}\NormalTok{D }\OperatorTok{\&} \OperatorTok{\textasciitilde{}}\NormalTok{T)}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"True positives  (TP): }\SpecialCharTok{\{}\NormalTok{TP}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## True positives  (TP): 1766
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"False negatives (FN): }\SpecialCharTok{\{}\NormalTok{FN}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## False negatives (FN): 206
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"False positives (FP): }\SpecialCharTok{\{}\NormalTok{FP}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## False positives (FP): 4913
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"True negatives  (TN): }\SpecialCharTok{\{}\NormalTok{TN}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## True negatives  (TN): 93115
+\end{verbatim}
+
+\subsection{b. Calculate empirical sensitivity, specificity, PPV, and
+NPV from their appropriate subsets. Compute the corresponding
+theoretical probabilities using the given model and compare theory with
+simulation. Briefly explain any differences; simulation is an empirical
+check rather than a mathematical proof. (3
+points)}\label{b.-calculate-empirical-sensitivity-specificity-ppv-and-npv-from-their-appropriate-subsets.-compute-the-corresponding-theoretical-probabilities-using-the-given-model-and-compare-theory-with-simulation.-briefly-explain-any-differences-simulation-is-an-empirical-check-rather-than-a-mathematical-proof.-3-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate sensitivity, the proportion of people that test positive given that they have the disease:}
+\NormalTok{sensitivity }\OperatorTok{=}\NormalTok{ TP}\OperatorTok{/}\NormalTok{(TP }\OperatorTok{+}\NormalTok{ FN)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The sensitivity is: "}\NormalTok{,sensitivity)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The sensitivity is:  0.8955375253549696
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate specificity, the proportion of people that test negative given that they do not have the disease:}
+\NormalTok{specificity }\OperatorTok{=}\NormalTok{ TN}\OperatorTok{/}\NormalTok{(TN }\OperatorTok{+}\NormalTok{ FP)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The specificity is: "}\NormalTok{, specificity)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The specificity is:  0.9498816664626434
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate positive predictive value, the proportion of people that actually have the disease and test positive:}
+\NormalTok{PPV }\OperatorTok{=}\NormalTok{ TP}\OperatorTok{/}\NormalTok{(TP }\OperatorTok{+}\NormalTok{ FP)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The PPV is: "}\NormalTok{, PPV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The PPV is:  0.2644108399460997
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate negative predictive value, the proportion of people that test negative and do not have the disease:}
+\NormalTok{NPV }\OperatorTok{=}\NormalTok{ TN}\OperatorTok{/}\NormalTok{(TN }\OperatorTok{+}\NormalTok{ FN)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The NPV is: "}\NormalTok{, NPV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The NPV is:  0.9977925654461482
+\end{verbatim}
+
+The results closely resemble what we would expect from a theoretical
+calculation, with only slight differences in the computed sensitivity
+and specificity values. These differences are largely accounted for when
+we round to the second decimal place, but demonstrate that the
+simulation will still have slight discrepancies when compared to the
+theoretical case. As B goes to infinity, our theoretical and simulated
+results will get closer and closer. This does not demonstrate a
+mathematical proof because we only simulated the results in a heuristic
+example. To prove these relationships, we would need to show that as B
+goes to infinity, the simulated result converges to the theoretical
+result.
+
+\subsection{c.~Holding sensitivity and specificity fixed, calculate the
+theoretical PPV when prevalence rises to 0.20. Explain the direction of
+the change. (2
+points)}\label{c.-holding-sensitivity-and-specificity-fixed-calculate-the-theoretical-ppv-when-prevalence-rises-to-0.20.-explain-the-direction-of-the-change.-2-points}
+
+The PPV rises to 0.82 (see notes). This is likely due to the fact that
+as the prevalence rises, we expect more people in the population to have
+the disease, hence it is also much more likely that someone who tests
+positive will have the disease also.
+
+\section{Question 10 Sampling without replacement in
+R}\label{question-10-sampling-without-replacement-in-r}
+
+\section{A group contains eight distinct people labeled 1--8; people
+1--3 have a specified allergy. In one trial, select three people
+uniformly without replacement. The event of interest is that all three
+selected people have the allergy. Reset the full eight-person population
+before the next
+trial.}\label{a-group-contains-eight-distinct-people-labeled-18-people-13-have-a-specified-allergy.-in-one-trial-select-three-people-uniformly-without-replacement.-the-event-of-interest-is-that-all-three-selected-people-have-the-allergy.-reset-the-full-eight-person-population-before-the-next-trial.}
+
+\subsection{a. State the exact event probability as a product of
+conditional probabilities. Also calculate the corresponding probability
+for three independent draws with replacement. (2
+points)}\label{a.-state-the-exact-event-probability-as-a-product-of-conditional-probabilities.-also-calculate-the-corresponding-probability-for-three-independent-draws-with-replacement.-2-points}
+
+\subsection{b. Use B=100000 and set.seed(813110) to simulate groups with
+sample.int(8, 3, replace=FALSE). Then use set.seed(813111) and
+replace=TRUE for the second model. Report successes, empirical
+probabilities, and theoretical probabilities for both models. (3
+points)}\label{b.-use-b100000-and-set.seed813110-to-simulate-groups-with-sample.int8-3-replacefalse.-then-use-set.seed813111-and-replacetrue-for-the-second-model.-report-successes-empirical-probabilities-and-theoretical-probabilities-for-both-models.-3-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B }\OtherTok{=} \DecValTok{10000}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{813110}\NormalTok{)}
+\CommentTok{\# Run the first model without replacement:}
+\NormalTok{m1 }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(B, }\FunctionTok{all}\NormalTok{(}\FunctionTok{sample.int}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{3}\NormalTok{, }\AttributeTok{replace =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\textless{}=} \DecValTok{3}\NormalTok{))}
+\NormalTok{succ1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(m1)}
+\NormalTok{emp1  }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(m1)}
+\NormalTok{theo1 }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{3}\SpecialCharTok{/}\DecValTok{8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{2}\SpecialCharTok{/}\DecValTok{7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\DecValTok{6}\NormalTok{)}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Successes for model 1: "}\NormalTok{, succ1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Successes for model 1: 161"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Empirical probabilitiy for model 1: "}\NormalTok{, emp1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Empirical probabilitiy for model 1: 0.0161"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Theoretical probability for model 1: "}\NormalTok{, theo1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Theoretical probability for model 1: 0.0178571428571429"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{813111}\NormalTok{)}
+\CommentTok{\# Run the second model with replacement:}
+\NormalTok{m2 }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(B, }\FunctionTok{all}\NormalTok{(}\FunctionTok{sample.int}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{3}\NormalTok{, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\textless{}=} \DecValTok{3}\NormalTok{))}
+\NormalTok{succ2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(m2)}
+\NormalTok{emp2  }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(m2)}
+\NormalTok{theo2 }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{3}\SpecialCharTok{/}\DecValTok{8}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{3}
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Successes for model 2: "}\NormalTok{, succ2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Successes for model 2: 527"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Empirical probabilitiy for model 2: "}\NormalTok{, emp2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Empirical probabilitiy for model 2: 0.0527"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Theoretical probability for model 2: "}\NormalTok{, theo2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Theoretical probability for model 2: 0.052734375"
+\end{verbatim}
+
+\subsection{c.~For the simulation without replacement, report running
+empirical probabilities after 100, 1,000, 10,000, and 100,000 trials.
+Plot the running probability against the number of trials, with a
+horizontal line at the theoretical probability. A logarithmic horizontal
+axis is acceptable. (3
+points)}\label{c.-for-the-simulation-without-replacement-report-running-empirical-probabilities-after-100-1000-10000-and-100000-trials.-plot-the-running-probability-against-the-number-of-trials-with-a-horizontal-line-at-the-theoretical-probability.-a-logarithmic-horizontal-axis-is-acceptable.-3-points}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Set Seed:}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{813110}\NormalTok{)}
+
+\CommentTok{\# Initialize data frames:}
+\NormalTok{trials }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{10000}\NormalTok{, }\DecValTok{100000}\NormalTok{)}
+\NormalTok{probs\_df }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{B =} \FunctionTok{c}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{10000}\NormalTok{, }\DecValTok{100000}\NormalTok{), }
+                   \AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\ConstantTok{NA}\NormalTok{),}
+                   \AttributeTok{log\_B =} \FunctionTok{log}\NormalTok{(B))}
+
+\CommentTok{\# Run the simulations:}
+\NormalTok{i }\OtherTok{=} \DecValTok{1}
+\ControlFlowTok{for}\NormalTok{ (B }\ControlFlowTok{in}\NormalTok{ trials) \{}
+    \CommentTok{\# Run Model}
+\NormalTok{    m1 }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(B, }\FunctionTok{all}\NormalTok{(}\FunctionTok{sample.int}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{3}\NormalTok{, }\AttributeTok{replace =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\textless{}=} \DecValTok{3}\NormalTok{))}
+\NormalTok{    succ1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(m1)}
+\NormalTok{    emp1  }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(m1)}
+    
+    \CommentTok{\# Report results:}
+    \FunctionTok{paste0}\NormalTok{(}\StringTok{"Successes for model 1 with B = "}\NormalTok{, B, }\StringTok{": "}\NormalTok{, succ1)}
+    \FunctionTok{paste0}\NormalTok{(}\StringTok{"Empirical probabilitiy for model 1 with B = "}\NormalTok{, B, }\StringTok{": "}\NormalTok{, emp1)}
+\NormalTok{    probs\_df[i, }\DecValTok{2}\NormalTok{] }\OtherTok{=}\NormalTok{ emp1}
+\NormalTok{    i }\OtherTok{=}\NormalTok{ i }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{\}}
+
+\CommentTok{\# Plot the graph:}
+\NormalTok{probs\_df }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(B), }\AttributeTok{y =}\NormalTok{ probs)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ theo1, }\AttributeTok{linetype =} \StringTok{"dotted"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Logarithm of Trial Numbers"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Empirical Probabilities"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{annotate}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\AttributeTok{x =} \DecValTok{6}\NormalTok{, }\AttributeTok{y =}\NormalTok{ theo1, }\AttributeTok{label =} \StringTok{"Theoretical Probability"}\NormalTok{,}
+           \AttributeTok{hjust =} \DecValTok{1}\NormalTok{, }\AttributeTok{vjust =} \SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-13-1.pdf}}
+
+\subsection{d.~Explain why the two models have different probabilities.
+Does the law of large numbers guarantee exact agreement after 25 trials,
+or that each additional trial moves the estimate closer to the truth? (2
+points)}\label{d.-explain-why-the-two-models-have-different-probabilities.-does-the-law-of-large-numbers-guarantee-exact-agreement-after-25-trials-or-that-each-additional-trial-moves-the-estimate-closer-to-the-truth-2-points}
+
+The theoretical probability is defined for the case where our sample
+size B trends to infinity. In theory, if we were to repeat this
+experiment an infinite number of times, our empirical probability would
+converge to the theoretical probability. This means that we will not
+necessarily have exact agreement after 25 trials, and that as we keep
+sampling greater and greater numbers, we get closer and closer to the
+theoretical result.
+
+\end{document}
