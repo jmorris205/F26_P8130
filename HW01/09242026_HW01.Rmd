@@ -1,8 +1,8 @@
 ---
-title: "HW01"
+title: "HW01 (Questions 7-10)"
 author: "Jonathan Morris"
 date: "2026-09-25"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -311,17 +311,32 @@ print("The theoretical sensitivity is: ",0.90, "as specified in the problem setu
 specificity = TN/(TN + FP)
 print("The empirical specificity is: ", specificity)
 print("The theoretical specificity is: ",0.95, "as specified in the problem setup")
+```
 
+Observe the following equations adapted from Bayes rule used to calculate theoretical PPV and NPV:
+
+Let $T^+$ = positive test, $T^-$ = negative test, $D^+$ = disease present, and $D^-$ = disease absent.
+
+
+$\text{PPV} = \mathbb{P}(D^+ \mid T^+) = \frac{\mathbb{P}(T^+ \mid D^+)\,\mathbb{P}(D^+)}{\mathbb{P}(T^+ \mid D^+)\,\mathbb{P}(D^+) + \mathbb{P}(T^+ \mid D^-)\,\mathbb{P}(D^-)}$
+
+
+
+$\text{NPV} = \mathbb{P}(D^- \mid T^-) = \frac{\mathbb{P}(T^- \mid D^-)\,\mathbb{P}(D^-)}{\mathbb{P}(T^- \mid D^-)\,\mathbb{P}(D^-) + \mathbb{P}(T^- \mid D^+)\,\mathbb{P}(D^+)}$
+
+
+```{python}
 # Calculate positive predictive value, the proportion of people that actually have the disease given that they test positive:
 PPV = TP/(TP + FP)
-print("The empirical PPV is: ", PPV)
-print("By bayes rule, the theoretical PPV is: ", (0.9*0.02)/((0.9*0.02) + ((1-0.95)*0.98)))
+print("The empirical PPV is: ", PPV) 
+print("By bayes rule, the theoretical PPV is: ", "[P(T+ | D+) * P(D+)] / [P(T+ | D+) * P(D+) + P(T+ | D-) * P(D-)] = ", (0.9*0.02)/((0.9*0.02) + ((1-0.95)*0.98)))
+
 
 
 # Calculate negative predictive value, the proportion of people that test negative and do not have the disease:
 NPV = TN/(TN + FN)
 print("The empirical NPV is: ", NPV)
-print("By bayes rule, the theoretical NPV is: ", (0.95*0.98)/((0.95*0.98) + ((1-0.90)*0.02)))
+print("By bayes rule, the theoretical NPV is: ", "[P(T- | D-) * P(D-)] / [P(T-| D-) * P(D-) + P(T- | D) * P(D)] = ", (0.95*0.98)/((0.95*0.98) + ((1-0.90)*0.02)))
 
 ```
 The results closely resemble what we would expect from a theoretical calculation, with only slight differences in the computed sensitivity and specificity values. These differences are largely accounted for when we round to the second decimal place, but demonstrate that the simulation will still have slight discrepancies when compared to the theoretical case. As B goes to infinity, our theoretical and simulated results will get closer and closer. This does not demonstrate a mathematical proof because we only simulated the results in a heuristic example. To prove these relationships, we would need to show that as B goes to infinity, the simulated result converges to the theoretical result.
@@ -332,7 +347,7 @@ paste0("By bayes rule, the theoretical PPV with prevalence at 0.20 is: ", (0.9*0
 ```
 
 
-The PPV rises to 0.82. This is likely due to the fact that as the prevalence rises, we expect more people in the population to have the disease, hence it is also much more likely that someone who tests positive will have the disease also.
+The PPV rises to 0.82. See equations in part (b) for details on how this is calculated. The rise is likely due to the fact that as the prevalence rises, we expect more people in the population to have the disease, hence it is also much more likely that someone who tests positive will have the disease also.
 
 
 # Question 10 Sampling without replacement in R
@@ -341,6 +356,20 @@ The PPV rises to 0.82. This is likely due to the fact that as the prevalence ris
 
 
 ## a. State the exact event probability as a product of conditional probabilities. Also calculate the corresponding probability for three independent draws with replacement. (2 points)
+Let $x_1, x_2, x_3$ be binary random variables representing the outcome of the first, second, and third draws respectively where:
+
+$x_i = \begin{cases} 0& \text{if person i has no allergies}  \\ 1 & \text{if person i has allergies} \end{cases}$
+
+Now let Y define the sum of random variables $x_1, x_2, x_3$, so Y represents the number of successes in one trial and Y follows a hypergeometric distribution.
+
+Based on this definition, our event of interest is the event when Y = 3:
+
+Thus, $P(Y = 3) = P(x_1 = 1) + P(x_2 = 1 | x_1 = 1) + P(x_3 = 1 | x_2, x_1 = 1) = \frac{3}{8} * \frac{2}{7} * \frac{1}{6} = 0.01785714$.
+
+In the independent case with replacement, our count resets at each draw, so the probability is the same across all draws:
+$P(Y = 3) = P(x_1 = 1) + P(x_2 = 1) + P(x_3 = 1) = \frac{3}{8} * \frac{3}{8} * \frac{3}{8} = 0.05273438$.
+
+
 ## b. Use B=100000 and set.seed(813110) to simulate groups with sample.int(8, 3, replace=FALSE). Then use set.seed(813111) and replace=TRUE for the second model. Report successes, empirical probabilities, and theoretical probabilities for both models. (3 points)
 ```{r}
 B = 10000

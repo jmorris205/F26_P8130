@@ -193,71 +193,51 @@ points)}\label{a-read-the-csv-with-id-as-text.-preserve-the-severity-order-mild-
 \NormalTok{ordered\_levels }\OperatorTok{=}\NormalTok{ [}\StringTok{"Mild"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"Severe"}\NormalTok{]}
 \NormalTok{d[}\StringTok{"severity"}\NormalTok{] }\OperatorTok{=}\NormalTok{ pd.Categorical(d[}\StringTok{"severity"}\NormalTok{], categories }\OperatorTok{=}\NormalTok{ ordered\_levels, ordered }\OperatorTok{=} \VariableTok{True}\NormalTok{)}
 \NormalTok{d\_sorted }\OperatorTok{=}\NormalTok{ d.sort\_values(by }\OperatorTok{=} \StringTok{"severity"}\NormalTok{)}
-\BuiltInTok{print}\NormalTok{(d\_sorted)}
-\end{Highlighting}
-\end{Shaded}
+\CommentTok{\# print(d\_sorted)}
 
-\begin{verbatim}
-##     id program  severity  age_years  prior_visits  wait_min  improved
-## 0   01     Yes      Mild         23             0       2.0         1
-## 6   07      No      Mild         25             0      10.0         0
-## 7   08      No      Mild         37             1      10.0         1
-## 1   02     Yes  Moderate         31             1       4.0         1
-## 3   04     Yes  Moderate         29             2       6.0         1
-## 8   09      No  Moderate         43             2      12.0         0
-## 9   10      No  Moderate         66             5      25.0         0
-## 2   03     Yes    Severe         45             3       4.0         0
-## 4   05     Yes    Severe         60             4       8.0         0
-## 5   06     Yes    Severe         52             2       NaN         1
-## 10  11      No    Severe         48             2       NaN         1
-## 11  12      No    Severe         57             3       NaN         0
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\#\# Print data shape:}
-\BuiltInTok{print}\NormalTok{(d.shape) }
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Data shape: }\SpecialCharTok{\{}\NormalTok{d}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## (12, 7)
+## Data shape: (12, 7)
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#\# Print duplicated ID\textquotesingle{}s:}
 \NormalTok{duplicated\_id }\OperatorTok{=}\NormalTok{ d[}\StringTok{\textquotesingle{}id\textquotesingle{}}\NormalTok{].duplicated().}\BuiltInTok{sum}\NormalTok{()}
-\BuiltInTok{print}\NormalTok{(duplicated\_id)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Number of duplicate id\textquotesingle{}s: }\SpecialCharTok{\{}\NormalTok{duplicated\_id}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 0
+## Number of duplicate id's: 0
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#\# Print duplicated waits:}
 \NormalTok{duplicated\_wait }\OperatorTok{=}\NormalTok{ d[}\StringTok{\textquotesingle{}wait\_min\textquotesingle{}}\NormalTok{].duplicated().}\BuiltInTok{sum}\NormalTok{()}
-\BuiltInTok{print}\NormalTok{(duplicated\_wait)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Number of duplicate waits: }\SpecialCharTok{\{}\NormalTok{duplicated\_wait}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 4
+## Number of duplicate waits: 4
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#\# Print negative waits:}
 \NormalTok{negative\_wait }\OperatorTok{=}\NormalTok{ (d[}\StringTok{\textquotesingle{}wait\_min\textquotesingle{}}\NormalTok{] }\OperatorTok{\textless{}} \DecValTok{0}\NormalTok{).}\BuiltInTok{sum}\NormalTok{()}
-\BuiltInTok{print}\NormalTok{(negative\_wait)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Number of negative waits: }\SpecialCharTok{\{}\NormalTok{negative\_wait}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 0
+## Number of negative waits: 0
 \end{verbatim}
 
 \subsection{(b) For observed waits, report n, mean, median, sample
@@ -269,56 +249,56 @@ points)}\label{b-for-observed-waits-report-n-mean-median-sample-variance-and-sd-
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Print n:}
-\BuiltInTok{print}\NormalTok{(d[}\StringTok{"wait\_min"}\NormalTok{].size)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"n: }\SpecialCharTok{\{}\NormalTok{d[}\StringTok{"wait\_min"}\NormalTok{]}\SpecialCharTok{.}\NormalTok{size}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 12
+## n: 12
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Print the mean:}
-\BuiltInTok{print}\NormalTok{(np.mean(d[}\StringTok{"wait\_min"}\NormalTok{]))}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Mean: }\SpecialCharTok{\{}\NormalTok{np}\SpecialCharTok{.}\NormalTok{mean(d[}\StringTok{"wait\_min"}\NormalTok{])}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 9.0
+## Mean: 9.0
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Print the variance:}
-\BuiltInTok{print}\NormalTok{(np.var(d[}\StringTok{"wait\_min"}\NormalTok{], ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{))}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Variance: }\SpecialCharTok{\{}\NormalTok{np}\SpecialCharTok{.}\NormalTok{var(d[}\StringTok{"wait\_min"}\NormalTok{], ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{)}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 47.0
+## Variance: 47.0
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Print the variance:}
-\BuiltInTok{print}\NormalTok{(np.std(d[}\StringTok{"wait\_min"}\NormalTok{], ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{))}
+\CommentTok{\# Print the standard deviation:}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Standard deviation: }\SpecialCharTok{\{}\NormalTok{np}\SpecialCharTok{.}\NormalTok{std(d[}\StringTok{"wait\_min"}\NormalTok{], ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{)}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 6.855654600401044
+## Standard deviation: 6.855654600401044
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Print the quartiles:}
-\BuiltInTok{print}\NormalTok{(np.nanquantile(d[}\StringTok{"wait\_min"}\NormalTok{], [}\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{], method }\OperatorTok{=} \StringTok{"linear"}\NormalTok{))}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Quartiles: }\SpecialCharTok{\{}\NormalTok{np}\SpecialCharTok{.}\NormalTok{nanquantile(d[}\StringTok{"wait\_min"}\NormalTok{], [}\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{], method }\OperatorTok{=} \StringTok{"linear"}\NormalTok{)}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [ 4.  8. 10.]
+## Quartiles: [ 4.  8. 10.]
 \end{verbatim}
 
 \begin{Shaded}
@@ -327,24 +307,53 @@ points)}\label{b-for-observed-waits-report-n-mean-median-sample-variance-and-sd-
 \NormalTok{q1 }\OperatorTok{=}\NormalTok{ np.nanquantile(d[}\StringTok{"wait\_min"}\NormalTok{], [}\FloatTok{0.25}\NormalTok{], method }\OperatorTok{=} \StringTok{"linear"}\NormalTok{)}
 \NormalTok{q3 }\OperatorTok{=}\NormalTok{ np.nanquantile(d[}\StringTok{"wait\_min"}\NormalTok{], [}\FloatTok{0.75}\NormalTok{], method }\OperatorTok{=} \StringTok{"linear"}\NormalTok{)}
 \NormalTok{iqr }\OperatorTok{=}\NormalTok{ q3 }\OperatorTok{{-}}\NormalTok{ q1}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"IQR: }\SpecialCharTok{\{}\NormalTok{iqr}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{) }\CommentTok{\# Print IQR}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## IQR: [6.]
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{fence1 }\OperatorTok{=}\NormalTok{ q1 }\OperatorTok{{-}} \FloatTok{1.5}\OperatorTok{*}\NormalTok{iqr}
 \NormalTok{fence2 }\OperatorTok{=}\NormalTok{ q3 }\OperatorTok{+} \FloatTok{1.5}\OperatorTok{*}\NormalTok{iqr}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Fence 1: }\SpecialCharTok{\{}\NormalTok{fence1}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{) }\CommentTok{\# print fence 1}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## Fence 1: [-5.]
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Fence 2: }\SpecialCharTok{\{}\NormalTok{fence2}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{) }\CommentTok{\# Print fence 2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Fence 2: [19.]
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# Print the flagged values:}
 \NormalTok{flagged }\OperatorTok{=}\NormalTok{ []}
 \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in}\NormalTok{ d[}\StringTok{"wait\_min"}\NormalTok{]:}
   \ControlFlowTok{if}\NormalTok{ i }\OperatorTok{\textgreater{}}\NormalTok{ fence2 }\KeywordTok{or}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ fence1:}
 \NormalTok{    flagged.append(i)}
 
-\BuiltInTok{print}\NormalTok{(flagged)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Flagged values: }\SpecialCharTok{\{}\NormalTok{flagged}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [25.0]
+## Flagged values: [25.0]
 \end{verbatim}
 
-The results are \ldots. compared to Q4!!
+The results are the same as those from question 4!!
 
 \subsection{(c) Produce a labeled histogram using edges 0, 5, 10, 15,
 20, 25, 30, and print the bin counts. Use bins closed on the left and
@@ -369,12 +378,12 @@ points)}\label{c-produce-a-labeled-histogram-using-edges-0-5-10-15-20-25-30-and-
 \end{Shaded}
 
 \begin{verbatim}
-## ([<matplotlib.axis.XTick object at 0x110f59e80>, <matplotlib.axis.XTick object at 0x110f98910>, <matplotlib.axis.XTick object at 0x110f99090>, <matplotlib.axis.XTick object at 0x110f99810>, <matplotlib.axis.XTick object at 0x110f99f90>, <matplotlib.axis.XTick object at 0x110f9a710>], [Text(2.5, 0, '0-4'), Text(7.5, 0, '5-9'), Text(12.5, 0, '10-14'), Text(17.5, 0, '15-19'), Text(22.5, 0, '20-24'), Text(27.5, 0, '25-30')])
+## ([<matplotlib.axis.XTick object at 0x141589be0>, <matplotlib.axis.XTick object at 0x1415a8910>, <matplotlib.axis.XTick object at 0x1415a9090>, <matplotlib.axis.XTick object at 0x1415a9810>, <matplotlib.axis.XTick object at 0x1415a9f90>, <matplotlib.axis.XTick object at 0x1415aa710>], [Text(2.5, 0, '0-4'), Text(7.5, 0, '5-9'), Text(12.5, 0, '10-14'), Text(17.5, 0, '15-19'), Text(22.5, 0, '20-24'), Text(27.5, 0, '25-30')])
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{plt.title(}\StringTok{"Histogram with Specific Bin Width (Size = 5)"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Histogram of Wait Times"}\NormalTok{)}
 \NormalTok{plt.xlabel(}\StringTok{"Wait time (min)"}\NormalTok{)}
 \NormalTok{plt.ylabel(}\StringTok{"Count"}\NormalTok{)}
 \NormalTok{plt.show()}
@@ -393,7 +402,7 @@ points)}\label{c-produce-a-labeled-histogram-using-edges-0-5-10-15-20-25-30-and-
 \end{Shaded}
 
 \begin{verbatim}
-## {'whiskers': [<matplotlib.lines.Line2D object at 0x111a07b10>, <matplotlib.lines.Line2D object at 0x111a07c50>], 'caps': [<matplotlib.lines.Line2D object at 0x111a07d90>, <matplotlib.lines.Line2D object at 0x111a07ed0>], 'boxes': [<matplotlib.lines.Line2D object at 0x111a079d0>], 'medians': [<matplotlib.lines.Line2D object at 0x111a24050>], 'fliers': [<matplotlib.lines.Line2D object at 0x111a24190>], 'means': []}
+## {'whiskers': [<matplotlib.lines.Line2D object at 0x143aebb10>, <matplotlib.lines.Line2D object at 0x143aebc50>], 'caps': [<matplotlib.lines.Line2D object at 0x143aebd90>, <matplotlib.lines.Line2D object at 0x143aebed0>], 'boxes': [<matplotlib.lines.Line2D object at 0x143aeb9d0>], 'medians': [<matplotlib.lines.Line2D object at 0x143b10050>], 'fliers': [<matplotlib.lines.Line2D object at 0x143b10190>], 'means': []}
 \end{verbatim}
 
 \begin{Shaded}
@@ -412,11 +421,13 @@ would handle the flagged wait. (2
 points)}\label{d-in-two-or-three-sentences-describe-the-distribution-explain-why-the-mean-uses-the-observed-wait-count-and-state-how-you-would-handle-the-flagged-wait.-2-points}
 
 The mean uses the observed wait count in the basic formula for sample
-mean by dividing the sum of all the observations by the number of non-na
-values (i.e., the observed wait count). In this case, since the flagged
-wait is so much higher than other waits, I would run analyses with and
-without the outlier to see if results changed. If I were presenting or
-writing a paper, I would report both results.
+mean by dividing the sum of all the non-na observations by the number of
+non-na values (i.e., the observed wait count). In this case, since the
+flagged wait is so much higher than other waits, I would run analyses
+with and without the outlier to see if results changed. If I were
+presenting or writing a paper, I would report both results. I would also
+consider using the median becuase it is often less susceptible to
+impacts from extreme values.
 
 \section{Question 8 An observational comparison in
 R}\label{question-8-an-observational-comparison-in-r}
@@ -448,49 +459,80 @@ points)}\label{a.-read-the-same-csv.-print-the-program-by-improved-count-table.-
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Report total participants:}
-\NormalTok{total\_pp }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(id)) }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{count}\NormalTok{()}
-
-\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, total\_pp, }\StringTok{" unique participants."}\NormalTok{)}
+\CommentTok{\# Print program by improved count table:}
+\NormalTok{d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(program, improved) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{())}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "We have 12 unique participants."
+## `summarise()` has grouped output by 'program'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+## # Groups:   program [2]
+##   program improved count
+##   <chr>      <dbl> <int>
+## 1 No             0     4
+## 2 No             1     2
+## 3 Yes            0     2
+## 4 Yes            1     4
+\end{verbatim}
+
+\subsection{Report results for Program == Yes
+group:}\label{report-results-for-program-yes-group}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d\_yes }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(program }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{)}
+
+\CommentTok{\# Report total participants:}
+\NormalTok{total\_pp }\OtherTok{=}\NormalTok{ d\_yes }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(id)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The Yes program has "}\NormalTok{, total\_pp, }\StringTok{" unique participants."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The Yes program has 6 unique participants."
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Report observed improvement outcomes:}
-\NormalTok{improved\_obs }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{improved\_obs }\OtherTok{=}\NormalTok{ d\_yes }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(improved)) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{pull}\NormalTok{()}
 
-\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, improved\_obs, }\StringTok{" observed improvement outcomes."}\NormalTok{)}
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The Yes program has "}\NormalTok{, improved\_obs, }\StringTok{" observed improvement outcomes."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "We have 12 observed improvement outcomes."
+## [1] "The Yes program has 6 observed improvement outcomes."
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Report number improved:}
-\NormalTok{improved\_count }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{improved\_count }\OtherTok{=}\NormalTok{ d\_yes }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(improved }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{pull}\NormalTok{()}
 
-\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, improved\_count, }\StringTok{" particpants that improved."}\NormalTok{)}
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The Yes program has "}\NormalTok{, improved\_count, }\StringTok{" particpants that improved."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "We have 6 particpants that improved."
+## [1] "The Yes program has 4 particpants that improved."
 \end{verbatim}
 
 \begin{Shaded}
@@ -498,28 +540,110 @@ points)}\label{a.-read-the-same-csv.-print-the-program-by-improved-count-table.-
 \CommentTok{\# Report improvement proportion:}
 \NormalTok{improved\_proportion }\OtherTok{=}\NormalTok{ improved\_count }\SpecialCharTok{/}\NormalTok{ improved\_obs }
 
-\FunctionTok{paste0}\NormalTok{(}\StringTok{"Our improvement proportion is: "}\NormalTok{, improved\_proportion)}
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Our improvement proportion for the Yes program is: "}\NormalTok{, improved\_proportion)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Our improvement proportion is: 0.5"
+## [1] "Our improvement proportion for the Yes program is: 0.666666666666667"
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Report number of missing waits:}
-\NormalTok{missing\_waits }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{missing\_waits }\OtherTok{=}\NormalTok{ d\_yes }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(wait\_min)) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{pull}\NormalTok{()}
 
-\FunctionTok{paste0}\NormalTok{(}\StringTok{"We have "}\NormalTok{, missing\_waits, }\StringTok{" missing wait times."}\NormalTok{)}
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The Yes group has "}\NormalTok{, missing\_waits, }\StringTok{" missing wait times."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "We have 3 missing wait times."
+## [1] "The Yes group has 1 missing wait times."
+\end{verbatim}
+
+\subsection{Report results for Program == No
+group:}\label{report-results-for-program-no-group}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d\_no }\OtherTok{=}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(program }\SpecialCharTok{==} \StringTok{"No"}\NormalTok{)}
+
+\CommentTok{\# Report total participants:}
+\NormalTok{total\_pp }\OtherTok{=}\NormalTok{ d\_no }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(id)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The No program has "}\NormalTok{, total\_pp, }\StringTok{" unique participants."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The No program has 6 unique participants."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report observed improvement outcomes:}
+\NormalTok{improved\_obs }\OtherTok{=}\NormalTok{ d\_no }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(improved)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The No program has "}\NormalTok{, improved\_obs, }\StringTok{" observed improvement outcomes."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The No program has 6 observed improvement outcomes."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report number improved:}
+\NormalTok{improved\_count }\OtherTok{=}\NormalTok{ d\_no }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(improved }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The No program has "}\NormalTok{, improved\_count, }\StringTok{" particpants that improved."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The No program has 2 particpants that improved."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report improvement proportion:}
+\NormalTok{improved\_proportion }\OtherTok{=}\NormalTok{ improved\_count }\SpecialCharTok{/}\NormalTok{ improved\_obs }
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"Our improvement proportion for the No program is: "}\NormalTok{, improved\_proportion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Our improvement proportion for the No program is: 0.333333333333333"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Report number of missing waits:}
+\NormalTok{missing\_waits }\OtherTok{=}\NormalTok{ d\_no }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(wait\_min)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{()}
+
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The No group has "}\NormalTok{, missing\_waits, }\StringTok{" missing wait times."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The No group has 2 missing wait times."
 \end{verbatim}
 
 \subsection{b. Calculate the Yes-minus-No difference in improvement
@@ -546,12 +670,22 @@ points)}\label{b.-calculate-the-yes-minus-no-difference-in-improvement-proportio
 \NormalTok{no\_ratio }\OtherTok{=}\NormalTok{ improved\_no\_c }\SpecialCharTok{/}\NormalTok{ d }\SpecialCharTok{|\textgreater{}} \FunctionTok{filter}\NormalTok{(program }\SpecialCharTok{==} \StringTok{"No"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{count}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{pull}\NormalTok{()}
 
 \CommentTok{\# Calculate difference:}
-\FunctionTok{paste0}\NormalTok{(}\StringTok{"The yes{-}no difference is: "}\NormalTok{, yes\_ratio }\SpecialCharTok{{-}}\NormalTok{ no\_ratio, }\StringTok{"."}\NormalTok{)}
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The yes{-}no difference proportion is: "}\NormalTok{, yes\_ratio }\SpecialCharTok{{-}}\NormalTok{ no\_ratio, }\StringTok{"."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "The yes-no difference is: 0.333333333333333."
+## [1] "The yes-no difference proportion is: 0.333333333333333."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"The yes{-}no difference percentage is: "}\NormalTok{, (yes\_ratio }\SpecialCharTok{{-}}\NormalTok{ no\_ratio)}\SpecialCharTok{*}\DecValTok{100}\NormalTok{, }\StringTok{"\%"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The yes-no difference percentage is: 33.3333333333333%"
 \end{verbatim}
 
 \subsection{c.~Make a labeled bar chart of the two improvement
@@ -576,7 +710,7 @@ point)}\label{c.-make-a-labeled-bar-chart-of-the-two-improvement-proportions-wit
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-9-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-11-1.pdf}}
 
 \subsection{d.~Write a defensible interpretation limited to these
 participants. Explain why the difference is not automatically a causal
@@ -588,7 +722,7 @@ Based on these results, we can conclude that in this sample of 12
 participants, those that chose counseling had almost double the
 improvement ratio when compared to those students that did not chose
 counseling. This is not necessarily a causal effect because participants
-were not randomized and self-selected into groups. One possible
+were not randomized and instead self-selected into groups. One possible
 confounder is self-selection bias where participants who were more
 likely to benefit from counseling could have selected into counseling
 programs, therefore biasing the outcomes in number of participants that
@@ -612,10 +746,11 @@ points)}\label{a.-use-np.random.default_rng813109-and-b100000.-first-generate-b-
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Initialize rng and B:}
 \NormalTok{rng }\OperatorTok{=}\NormalTok{ np.random.default\_rng(}\DecValTok{813109}\NormalTok{)}
 \NormalTok{B }\OperatorTok{=} \DecValTok{100000}
 
-\CommentTok{\# Create disease vector}
+\CommentTok{\# Create disease vector of T/F }
 \NormalTok{D }\OperatorTok{=}\NormalTok{ rng.random(B) }\OperatorTok{\textless{}} \FloatTok{0.02}
 
 \CommentTok{\# Create test vector:}
@@ -677,48 +812,98 @@ points)}\label{b.-calculate-empirical-sensitivity-specificity-ppv-and-npv-from-t
 \begin{Highlighting}[]
 \CommentTok{\# Calculate sensitivity, the proportion of people that test positive given that they have the disease:}
 \NormalTok{sensitivity }\OperatorTok{=}\NormalTok{ TP}\OperatorTok{/}\NormalTok{(TP }\OperatorTok{+}\NormalTok{ FN)}
-\BuiltInTok{print}\NormalTok{(}\StringTok{"The sensitivity is: "}\NormalTok{,sensitivity)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The empirical sensitivity is: "}\NormalTok{,sensitivity)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## The sensitivity is:  0.8955375253549696
+## The empirical sensitivity is:  0.8955375253549696
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The theoretical sensitivity is: "}\NormalTok{,}\FloatTok{0.90}\NormalTok{, }\StringTok{"as specified in the problem setup"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The theoretical sensitivity is:  0.9 as specified in the problem setup
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Calculate specificity, the proportion of people that test negative given that they do not have the disease:}
 \NormalTok{specificity }\OperatorTok{=}\NormalTok{ TN}\OperatorTok{/}\NormalTok{(TN }\OperatorTok{+}\NormalTok{ FP)}
-\BuiltInTok{print}\NormalTok{(}\StringTok{"The specificity is: "}\NormalTok{, specificity)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The empirical specificity is: "}\NormalTok{, specificity)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## The specificity is:  0.9498816664626434
+## The empirical specificity is:  0.9498816664626434
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Calculate positive predictive value, the proportion of people that actually have the disease and test positive:}
-\NormalTok{PPV }\OperatorTok{=}\NormalTok{ TP}\OperatorTok{/}\NormalTok{(TP }\OperatorTok{+}\NormalTok{ FP)}
-\BuiltInTok{print}\NormalTok{(}\StringTok{"The PPV is: "}\NormalTok{, PPV)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The theoretical specificity is: "}\NormalTok{,}\FloatTok{0.95}\NormalTok{, }\StringTok{"as specified in the problem setup"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## The PPV is:  0.2644108399460997
+## The theoretical specificity is:  0.95 as specified in the problem setup
+\end{verbatim}
+
+Observe the following equations adapted from Bayes rule used to
+calculate theoretical PPV and NPV:
+
+Let \(T^+\) = positive test, \(T^-\) = negative test, \(D^+\) = disease
+present, and \(D^-\) = disease absent.
+
+\(\text{PPV} = \mathbb{P}(D^+ \mid T^+) = \frac{\mathbb{P}(T^+ \mid D^+)\,\mathbb{P}(D^+)}{\mathbb{P}(T^+ \mid D^+)\,\mathbb{P}(D^+) + \mathbb{P}(T^+ \mid D^-)\,\mathbb{P}(D^-)}\)
+
+\(\text{NPV} = \mathbb{P}(D^- \mid T^-) = \frac{\mathbb{P}(T^- \mid D^-)\,\mathbb{P}(D^-)}{\mathbb{P}(T^- \mid D^-)\,\mathbb{P}(D^-) + \mathbb{P}(T^- \mid D^+)\,\mathbb{P}(D^+)}\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate positive predictive value, the proportion of people that actually have the disease given that they test positive:}
+\NormalTok{PPV }\OperatorTok{=}\NormalTok{ TP}\OperatorTok{/}\NormalTok{(TP }\OperatorTok{+}\NormalTok{ FP)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The empirical PPV is: "}\NormalTok{, PPV) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The empirical PPV is:  0.2644108399460997
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"By bayes rule, the theoretical PPV is: "}\NormalTok{, }\StringTok{"[P(T+ | D+) * P(D+)] / [P(T+ | D+) * P(D+) + P(T+ | D{-}) * P(D{-})] = "}\NormalTok{, (}\FloatTok{0.9}\OperatorTok{*}\FloatTok{0.02}\NormalTok{)}\OperatorTok{/}\NormalTok{((}\FloatTok{0.9}\OperatorTok{*}\FloatTok{0.02}\NormalTok{) }\OperatorTok{+}\NormalTok{ ((}\DecValTok{1}\OperatorTok{{-}}\FloatTok{0.95}\NormalTok{)}\OperatorTok{*}\FloatTok{0.98}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## By bayes rule, the theoretical PPV is:  [P(T+ | D+) * P(D+)] / [P(T+ | D+) * P(D+) + P(T+ | D-) * P(D-)] =  0.2686567164179103
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Calculate negative predictive value, the proportion of people that test negative and do not have the disease:}
 \NormalTok{NPV }\OperatorTok{=}\NormalTok{ TN}\OperatorTok{/}\NormalTok{(TN }\OperatorTok{+}\NormalTok{ FN)}
-\BuiltInTok{print}\NormalTok{(}\StringTok{"The NPV is: "}\NormalTok{, NPV)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The empirical NPV is: "}\NormalTok{, NPV)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## The NPV is:  0.9977925654461482
+## The empirical NPV is:  0.9977925654461482
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\StringTok{"By bayes rule, the theoretical NPV is: "}\NormalTok{, }\StringTok{"[P(T{-} | D{-}) * P(D{-})] / [P(T{-}| D{-}) * P(D{-}) + P(T{-} | D) * P(D)] = "}\NormalTok{, (}\FloatTok{0.95}\OperatorTok{*}\FloatTok{0.98}\NormalTok{)}\OperatorTok{/}\NormalTok{((}\FloatTok{0.95}\OperatorTok{*}\FloatTok{0.98}\NormalTok{) }\OperatorTok{+}\NormalTok{ ((}\DecValTok{1}\OperatorTok{{-}}\FloatTok{0.90}\NormalTok{)}\OperatorTok{*}\FloatTok{0.02}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## By bayes rule, the theoretical NPV is:  [P(T- | D-) * P(D-)] / [P(T-| D-) * P(D-) + P(T- | D) * P(D)] =  0.9978563772775991
 \end{verbatim}
 
 The results closely resemble what we would expect from a theoretical
@@ -738,10 +923,21 @@ theoretical PPV when prevalence rises to 0.20. Explain the direction of
 the change. (2
 points)}\label{c.-holding-sensitivity-and-specificity-fixed-calculate-the-theoretical-ppv-when-prevalence-rises-to-0.20.-explain-the-direction-of-the-change.-2-points}
 
-The PPV rises to 0.82 (see notes). This is likely due to the fact that
-as the prevalence rises, we expect more people in the population to have
-the disease, hence it is also much more likely that someone who tests
-positive will have the disease also.
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{"By bayes rule, the theoretical PPV with prevalence at 0.20 is: "}\NormalTok{, (}\FloatTok{0.9}\SpecialCharTok{*}\FloatTok{0.2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{((}\FloatTok{0.9}\SpecialCharTok{*}\FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ ((}\DecValTok{1}\FloatTok{{-}0.95}\NormalTok{)}\SpecialCharTok{*}\FloatTok{0.8}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "By bayes rule, the theoretical PPV with prevalence at 0.20 is: 0.818181818181818"
+\end{verbatim}
+
+The PPV rises to 0.82. See equations in part (b) for details on how this
+is calculated. The rise is likely due to the fact that as the prevalence
+rises, we expect more people in the population to have the disease,
+hence it is also much more likely that someone who tests positive will
+have the disease also.
 
 \section{Question 10 Sampling without replacement in
 R}\label{question-10-sampling-without-replacement-in-r}
@@ -757,6 +953,24 @@ trial.}\label{a-group-contains-eight-distinct-people-labeled-18-people-13-have-a
 conditional probabilities. Also calculate the corresponding probability
 for three independent draws with replacement. (2
 points)}\label{a.-state-the-exact-event-probability-as-a-product-of-conditional-probabilities.-also-calculate-the-corresponding-probability-for-three-independent-draws-with-replacement.-2-points}
+
+Let \(x_1, x_2, x_3\) be binary random variables representing the
+outcome of the first, second, and third draws respectively where:
+
+\(x_i = \begin{cases} 0& \text{if person i has no allergies}  \\ 1 & \text{if person i has allergies} \end{cases}\)
+
+Now let Y define the sum of random variables \(x_1, x_2, x_3\), so Y
+represents the number of successes in one trial and Y follows a
+hypergeometric distribution.
+
+Based on this definition, our event of interest is the event when Y = 3:
+
+Thus,
+\(P(Y = 3) = P(x_1 = 1) + P(x_2 = 1 | x_1 = 1) + P(x_3 = 1 | x_2, x_1 = 1) = \frac{3}{8} * \frac{2}{7} * \frac{1}{6} = 0.01785714\).
+
+In the independent case with replacement, our count resets at each draw,
+so the probability is the same across all draws:
+\(P(Y = 3) = P(x_1 = 1) + P(x_2 = 1) + P(x_3 = 1) = \frac{3}{8} * \frac{3}{8} * \frac{3}{8} = 0.05273438\).
 
 \subsection{b. Use B=100000 and set.seed(813110) to simulate groups with
 sample.int(8, 3, replace=FALSE). Then use set.seed(813111) and
@@ -884,7 +1098,7 @@ points)}\label{c.-for-the-simulation-without-replacement-report-running-empirica
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-13-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{09242026_HW01_files/figure-latex/unnamed-chunk-17-1.pdf}}
 
 \subsection{d.~Explain why the two models have different probabilities.
 Does the law of large numbers guarantee exact agreement after 25 trials,
